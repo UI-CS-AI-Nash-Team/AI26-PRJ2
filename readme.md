@@ -36,6 +36,8 @@ The project environment is a two-dimensional grid world of size **m × n**, cons
 
 The agent’s objective is to find the optimal locations for placing the sensors in order to maximize the coverage of targets.
 
+![My Project Screenshot](env.png)
+
 ### Environment Components:
 
 - **Sensors**: Blue circular points. The agent can place a number of sensors (up to the specified limit for each map) within the environment. Each sensor has a specific range and can cover nearby targets.
