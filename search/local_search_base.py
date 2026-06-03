@@ -31,7 +31,7 @@ class LocalSearchBase:
     def get_neighbor(self, state):
         current = list(state)
         used_positions = set(current)
-        candidates = [] #list of state candidates 
+        successors = [] #list of state candidates 
 
         #move existing sensors
         directions = [(1, 0), (-1, 0), (0, 1), (0, -1), (1, 1), (-1, 1), (1, -1), (-1, -1)]
@@ -48,24 +48,27 @@ class LocalSearchBase:
 
                 new_state = current.copy()
                 new_state[i] = new_position
-                candidates.append(new_state)
+                successors.append(new_state)
 
         #add a new sensor (if allowed)
         if len(current) < self.world.max_sensors:
             for pos in self._valid_positions():
                 if pos not in used_positions:
-                    candidates.append(current + [pos])
+                    successors.append(current + [pos])
 
         #remove an existing sensor
         for i in range(len(current)):
             new_state = current[:i] + current[i + 1:]
-            candidates.append(new_state)
+            successors.append(new_state)
 
         #return best neighbor
-        if not candidates:
+        if not successors:
             return current.copy()
 
-        return min(candidates, key=self.evaluate)
+        return successors
+        #return random.choice(candidates)            for simulated_annealing
+        #return min(candidates, key=self.evaluate)   for hill climbing
+        # i think this is wrong to return just one state, should return all successors then algorithm decide which one to choose
 
     def initialize_state(self):
         """
