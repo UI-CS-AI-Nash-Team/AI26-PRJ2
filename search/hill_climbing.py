@@ -36,7 +36,8 @@ class HillClimbing(LocalSearchBase):
             neighbor = min(self.get_neighbor(current), key=self.evaluate)
             neighbor_cost = self.evaluate(neighbor)
 
-            if neighbor_cost >= current_cost:
+            # To get out of the shoulder position we change the => to >
+            if neighbor_cost > current_cost:
                 return current, current_cost, evaluations, states_history
 
             current = neighbor
