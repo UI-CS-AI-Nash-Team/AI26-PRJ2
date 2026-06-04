@@ -24,5 +24,25 @@ class HillClimbing(LocalSearchBase):
         states_history : list of lists
             List of states at each iteration (used for animation).
         """
-        
-        raise NotImplementedError("Students must implement this method.")
+        max_iterations = kwargs.get("max_iterations", 100)
+
+        current = list(initial_state)
+        current_cost = self.evaluate(current)
+
+        evaluations = [current_cost]
+        states_history = [current.copy()]
+
+        for _ in range(max_iterations):
+            neighbor = min(self.get_neighbor(current), key=self.evaluate)
+            neighbor_cost = self.evaluate(neighbor)
+
+            if neighbor_cost >= current_cost:
+                return current, current_cost, evaluations, states_history
+
+            current = neighbor
+            current_cost = neighbor_cost
+
+            evaluations.append(current_cost)
+            states_history.append(current.copy())
+
+        return current, current_cost, evaluations, states_history
